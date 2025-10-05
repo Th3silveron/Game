@@ -13,6 +13,7 @@ namespace XYZEngine
 		sf::RenderWindow& GetMainWindow() const;
 
 		void Render(const sf::Drawable& drawable);
+		void ExitGame();
 
 	private:
 		sf::RenderWindow* window;

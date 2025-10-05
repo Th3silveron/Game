@@ -1,9 +1,14 @@
 #include "LevelGenerator.h"
+#include <Logger.h>
+
+using namespace XYZEngine;
 
 namespace XYZRoguelike
 {
 	LevelGenerator::LevelGenerator()
+		: randomGenerator(std::random_device{}())
 	{
+		LOG_DEBUG("LevelGenerator initialized", "LEVEL_GENERATOR");
 	}
 
 	LevelGenerator::~LevelGenerator()
@@ -13,9 +18,11 @@ namespace XYZRoguelike
 
 	void LevelGenerator::GenerateLevel(int size, float tileSize)
 	{
+		LOG_INFO("Generating level with size: " + std::to_string(size) + "x" + std::to_string(size), "LEVEL_GENERATOR");
 		ClearLevel();
 		CreateWalls(size, tileSize);
 		CreateFloor(size, tileSize);
+		LOG_INFO("Level generation completed", "LEVEL_GENERATOR");
 	}
 
 	void LevelGenerator::ClearLevel()
@@ -37,6 +44,9 @@ namespace XYZRoguelike
 
 	void LevelGenerator::CreateWalls(int size, float tileSize)
 	{
+		LOG_DEBUG("Creating walls...", "LEVEL_GENERATOR");
+		int wallCount = 0;
+		
 		// Создаем стены по периметру
 		for (int x = 0; x < size; x++)
 		{
@@ -47,23 +57,32 @@ namespace XYZRoguelike
 					float worldX = x * tileSize;
 					float worldY = y * tileSize;
 					walls.push_back(new Wall(worldX, worldY));
+					wallCount++;
 				}
 			}
 		}
+		
+		LOG_INFO("Created " + std::to_string(wallCount) + " walls", "LEVEL_GENERATOR");
 	}
 
 	void LevelGenerator::CreateFloor(int size, float tileSize)
 	{
-		// Заполняем внутреннюю область полом
+		LOG_DEBUG("Creating floor tiles...", "LEVEL_GENERATOR");
+		int tileCount = 0;
+		
+		// Создаем только зеленые тайлы травы
 		for (int x = 1; x < size - 1; x++)
 		{
 			for (int y = 1; y < size - 1; y++)
 			{
 				float worldX = x * tileSize;
 				float worldY = y * tileSize;
-				floors.push_back(new Floor(worldX, worldY));
+				floors.push_back(new Floor(worldX, worldY, TileType::Grass));
+				tileCount++;
 			}
 		}
+		
+		LOG_INFO("Created " + std::to_string(tileCount) + " green floor tiles", "LEVEL_GENERATOR");
 	}
 
 	bool LevelGenerator::IsWallPosition(int x, int y, int size)

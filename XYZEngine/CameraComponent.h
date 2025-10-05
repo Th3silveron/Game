@@ -26,5 +26,6 @@ namespace XYZEngine
 		bool smoothFollow;
 		float smoothFactor;
 		Vector2Df targetPosition;
+		bool firstUpdate; // Флаг для первой инициализации камеры
 	};
 }

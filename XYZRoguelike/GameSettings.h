@@ -25,8 +25,8 @@ namespace XYZRoguelike
 		// Game settings constants
 		const float ACCELERATION = 10.f;
 		const int MAX_APPLES = 80;
-		const unsigned int SCREEN_WIDTH = 800;
-		const unsigned int SCREEN_HEIGHT = 600;
+		const unsigned int SCREEN_WIDTH = 1920;
+		const unsigned int SCREEN_HEIGHT = 1080;
 		const float TIME_PER_FRAME = 1.f / 60.f; // 60 fps
 
 		const unsigned int BALL_SIZE = 20;

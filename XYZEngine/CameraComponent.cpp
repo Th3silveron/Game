@@ -6,11 +6,13 @@ namespace XYZEngine
 {
 	CameraComponent::CameraComponent(GameObject* gameObject) : Component(gameObject)
 	{
-		view = new sf::View(sf::FloatRect(0, 0, 800, 600));
+		// Инициализируем камеру с правильным разрешением
+		view = new sf::View(sf::FloatRect(0, 0, 1920, 1080));
 		transform = gameObject->GetComponent<TransformComponent>();
 		smoothFollow = true;
 		smoothFactor = 5.0f;
 		targetPosition = { 0, 0 };
+		firstUpdate = true; // Флаг для первой инициализации
 		
 		// Инициализируем камеру в позиции игрока
 		if (transform)
@@ -30,7 +32,14 @@ namespace XYZEngine
 		auto position = transform->GetWorldPosition();
 		auto rotation = transform->GetWorldRotation();
 
-		if (smoothFollow)
+		// При первой инициализации сразу устанавливаем камеру на игрока
+		if (firstUpdate)
+		{
+			targetPosition = position;
+			view->setCenter(Convert<sf::Vector2f, Vector2Df>(position));
+			firstUpdate = false;
+		}
+		else if (smoothFollow)
 		{
 			// Сглаживаем движение камеры
 			Vector2Df currentCenter = { view->getCenter().x, view->getCenter().y };

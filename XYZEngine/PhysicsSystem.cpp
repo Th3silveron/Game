@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PhysicsSystem.h"
+#include "HealthComponent.h"
 
 namespace XYZEngine
 {
@@ -34,6 +35,17 @@ namespace XYZEngine
 				// Пропускаем коллизии между двумя кинематическими объектами
 				if (bodyA && bodyB && bodyA->GetKinematic() && bodyB->GetKinematic())
 				{
+					continue;
+				}
+
+				// Пропускаем коллизии между игроком и врагом (живыми)
+				std::string nameA = colliders[i]->GetGameObject()->GetName();
+				std::string nameB = colliders[j]->GetGameObject()->GetName();
+				bool isPlayerEnemyCollision = (nameA == "Player" && nameB == "Enemy") || (nameA == "Enemy" && nameB == "Player");
+				
+				if (isPlayerEnemyCollision)
+				{
+					// Полностью пропускаем коллизии между игроком и врагом
 					continue;
 				}
 
@@ -110,24 +122,25 @@ namespace XYZEngine
 					}
 					else if (!colliders[i]->isTrigger)
 					{
-						float intersectionWidth = intersection.width;
-						float intersectionHeight = intersection.height;
-						Vector2Df intersectionPosition = { intersection.left - 0.5f * intersectionWidth, intersection.top - 0.5f * intersectionHeight };
+						// Обычная обработка коллизии для всех объектов
+							float intersectionWidth = intersection.width;
+							float intersectionHeight = intersection.height;
+							Vector2Df intersectionPosition = { intersection.left - 0.5f * intersectionWidth, intersection.top - 0.5f * intersectionHeight };
 
-						// Определяем, какой объект нужно двигать (некинематический)
-						TransformComponent* transformToMove = nullptr;
-						ColliderComponent* colliderToMove = nullptr;
-						
-						if (!bodyA || !bodyA->GetKinematic())
-						{
-							transformToMove = colliders[i]->GetGameObject()->GetComponent<TransformComponent>();
-							colliderToMove = colliders[i];
-						}
-						else if (!bodyB || !bodyB->GetKinematic())
-						{
-							transformToMove = colliders[j]->GetGameObject()->GetComponent<TransformComponent>();
-							colliderToMove = colliders[j];
-						}
+							// Определяем, какой объект нужно двигать (некинематический)
+							TransformComponent* transformToMove = nullptr;
+							ColliderComponent* colliderToMove = nullptr;
+							
+							if (!bodyA || !bodyA->GetKinematic())
+							{
+								transformToMove = colliders[i]->GetGameObject()->GetComponent<TransformComponent>();
+								colliderToMove = colliders[i];
+							}
+							else if (!bodyB || !bodyB->GetKinematic())
+							{
+								transformToMove = colliders[j]->GetGameObject()->GetComponent<TransformComponent>();
+								colliderToMove = colliders[j];
+							}
 						
 						if (transformToMove && colliderToMove)
 						{

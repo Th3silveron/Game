@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameWorld.h"
+#include "Logger.h"
 
 namespace XYZEngine
 {
@@ -45,12 +46,16 @@ namespace XYZEngine
 	{
 		GameObject* newGameObject = new GameObject();
 		gameObjects.push_back(newGameObject);
+		LOG_DEBUG("Created unnamed GameObject", "GAMEWORLD");
 		return newGameObject;
 	}
 	GameObject* GameWorld::CreateGameObject(std::string name)
 	{
+		ASSERT_LOG(!name.empty(), "GameObject name cannot be empty", "GAMEWORLD");
+		
 		GameObject* newGameObject = new GameObject(name);
 		gameObjects.push_back(newGameObject);
+		LOG_INFO("Created GameObject: '" + name + "'", "GAMEWORLD");
 		return newGameObject;
 	}
 	void GameWorld::DestroyGameObject(GameObject* gameObject)

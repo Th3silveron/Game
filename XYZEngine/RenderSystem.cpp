@@ -22,4 +22,12 @@ namespace XYZEngine
 	{
 		window->draw(drawable);
 	}
+
+	void RenderSystem::ExitGame()
+	{
+		if (window)
+		{
+			window->close();
+		}
+	}
 }

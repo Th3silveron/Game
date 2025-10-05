@@ -12,7 +12,7 @@ using namespace XYZRoguelike;
 
 int main()
 {
-	XYZEngine::RenderSystem::Instance()->SetMainWindow(new sf::RenderWindow(sf::VideoMode(1280, 720), "XYZRoguelike"));
+	XYZEngine::RenderSystem::Instance()->SetMainWindow(new sf::RenderWindow(sf::VideoMode(1920, 1080), "XYZRoguelike"));
 
 	auto developerLevel = std::make_shared<DeveloperLevel>();
 	developerLevel->Start();

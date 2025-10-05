@@ -45,14 +45,14 @@ namespace XYZRoguelike
 		const auto rect = sprite.getGlobalBounds();
 		const auto ballPos = ball->GetPosition();
 		if (ballPos.x < rect.left) {
-			return sqr(ballPos.x - rect.left) + sqr(ballPos.y - rect.top) < sqr(SETTINGS.BALL_SIZE / 2.0);
+			return sqr(ballPos.x - rect.left) + sqr(ballPos.y - rect.top) < sqr(static_cast<float>(SETTINGS.BALL_SIZE) / 2.0f);
 		}
 
 		if (ballPos.x > rect.left + rect.width) {
-			return sqr(ballPos.x - rect.left - rect.width) + sqr(ballPos.y - rect.top) < sqr(SETTINGS.BALL_SIZE / 2.0);
+			return sqr(ballPos.x - rect.left - rect.width) + sqr(ballPos.y - rect.top) < sqr(static_cast<float>(SETTINGS.BALL_SIZE) / 2.0f);
 		}
 
-		return std::fabs(ballPos.y - rect.top) <= SETTINGS.BALL_SIZE / 2.0;
+		return std::fabs(ballPos.y - rect.top) <= static_cast<float>(SETTINGS.BALL_SIZE) / 2.0f;
 	}
 
 	bool Platform::CheckCollision(std::shared_ptr<Colladiable> collidable) {

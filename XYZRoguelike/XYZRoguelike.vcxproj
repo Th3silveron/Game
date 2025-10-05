@@ -220,6 +220,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="ThreeHitBlock.h" />
+    <ClInclude Include="TileTypes.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

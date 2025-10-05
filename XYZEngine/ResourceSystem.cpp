@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ResourceSystem.h"
+#include "Logger.h"
 
 namespace XYZEngine
 {
@@ -11,21 +12,43 @@ namespace XYZEngine
 
 	void ResourceSystem::LoadTexture(const std::string& name, std::string sourcePath, bool isSmooth)
 	{
+		ASSERT_LOG(!name.empty(), "Texture name cannot be empty", "RESOURCE");
+		ASSERT_LOG(!sourcePath.empty(), "Texture source path cannot be empty", "RESOURCE");
+		
 		if (textures.find(name) != textures.end())
 		{
+			LOG_WARNING("Texture '" + name + "' already loaded, skipping", "RESOURCE");
 			return;
 		}
 
+		LOG_INFO("Loading texture: '" + name + "' from '" + sourcePath + "'", "RESOURCE");
+		
 		sf::Texture* newTexture = new sf::Texture();
 		if (newTexture->loadFromFile(sourcePath))
 		{
 			newTexture->setSmooth(isSmooth);
 			textures.emplace(name, newTexture);
+			LOG_INFO("Successfully loaded texture: '" + name + "'", "RESOURCE");
+		}
+		else
+		{
+			LOG_ERROR("Failed to load texture: '" + name + "' from '" + sourcePath + "'", "RESOURCE");
+			delete newTexture;
 		}
 	}
 	const sf::Texture* ResourceSystem::GetTextureShared(const std::string& name) const
 	{
-		return textures.find(name)->second;
+		ASSERT_LOG(!name.empty(), "Texture name cannot be empty", "RESOURCE");
+		
+		auto it = textures.find(name);
+		if (it == textures.end())
+		{
+			LOG_ERROR("Texture '" + name + "' not found", "RESOURCE");
+			return nullptr;
+		}
+		
+		LOG_DEBUG("Retrieved shared texture: '" + name + "'", "RESOURCE");
+		return it->second;
 	}
 	sf::Texture* ResourceSystem::GetTextureCopy(const std::string& name) const
 	{

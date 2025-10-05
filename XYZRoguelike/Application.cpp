@@ -1,5 +1,8 @@
-#include "Application.h"
+﻿#include "Application.h"
 #include <cstdlib>
+#include <Logger.h>
+
+using namespace XYZEngine;
 
 namespace XYZRoguelike
 {
@@ -12,9 +15,21 @@ namespace XYZRoguelike
 	Application::Application() :
 		window(sf::VideoMode(SETTINGS.SCREEN_WIDTH, SETTINGS.SCREEN_HEIGHT), SETTINGS.GAME_NAME)
 	{
+		// Initialize logger first
+		Logger::Instance().Initialize("roguelike_game.log");
+		Logger::Instance().SetLogLevel(LogLevel::INFO);
+		LOG_INFO("Application starting...", "APPLICATION");
+		
 		// Init random number generator
 		unsigned int seed = (unsigned int)time(nullptr); // Get current time as seed. You can also use any other number to fix randomization
 		srand(seed);
+		LOG_INFO("Random number generator initialized with seed: " + std::to_string(seed), "APPLICATION");
+	}
+
+	Application::~Application()
+	{
+		LOG_INFO("Application shutting down...", "APPLICATION");
+		Logger::Instance().Shutdown();
 	}
 
 	void Application::Run()
@@ -43,4 +58,20 @@ namespace XYZRoguelike
 		}
 	}
 
+	void Application::Exit()
+	{
+		LOG_INFO("Application exiting due to game over...", "APPLICATION");
+		window.close();
+	}
+
 }
+
+/*┌─┐ ─┐
+　│▒│ /▒/
+　│▒│/▒/
+　│▒ /▒/─┬─┐
+　│▒│▒|▒│▒│
+┌┴─┴─┐-┘─┘
+│▒┌──┘▒▒▒│
+└┐▒▒▒▒▒▒┌┘
+　 └┐▒▒▒▒┌┘*/

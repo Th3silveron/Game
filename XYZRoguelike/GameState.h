@@ -19,11 +19,11 @@ namespace XYZRoguelike
 	{
 	public:
 		GameState() = default;
-		GameState(GameStateType type, bool isExclusivelyVisible);
+		GameState(GameStateType type, bool isExclusivelyVisible) noexcept;
 		GameState(const GameState& state) = delete;
 		GameState(GameState&& state) { operator=(std::move(state)); }
 
-		~GameState();
+		~GameState() noexcept;
 
 		GameState& operator= (const GameState& state) = delete;
 		GameState& operator= (GameState&& state) noexcept {

@@ -15,6 +15,7 @@ namespace XYZEngine
 
 		float GetHorizontalAxis() const;
 		float GetVerticalAxis() const;
+		bool IsKeyPressed(sf::Keyboard::Key key) const;
 	private:
 		float horizontalAxis = 0.f;
 		float verticalAxis = 0.f;

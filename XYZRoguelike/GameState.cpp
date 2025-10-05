@@ -12,7 +12,7 @@
 
 namespace XYZRoguelike
 {
-	GameState::GameState(GameStateType type, bool isExclusivelyVisible)
+	GameState::GameState(GameStateType type, bool isExclusivelyVisible) noexcept
 		: type(type)
 		, isExclusivelyVisible(isExclusivelyVisible)
 	{
@@ -57,7 +57,7 @@ namespace XYZRoguelike
 		}
 	}
 
-	GameState::~GameState()
+	GameState::~GameState() noexcept
 	{
 		if (data) {
 			data = nullptr;

@@ -13,12 +13,13 @@ namespace XYZRoguelike {
 		static Application& Instance();
 
 		void Run();
+		void Exit();
 
 		Game& GetGame() { return game; }
 
 	private:
 		Application();
-		~Application() = default;
+		~Application();
 
 	private:
 		Game game;

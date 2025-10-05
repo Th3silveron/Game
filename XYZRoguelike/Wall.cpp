@@ -12,7 +12,7 @@ namespace XYZRoguelike
 		
 		auto wallRenderer = gameObject->AddComponent<XYZEngine::SpriteRendererComponent>();
 		wallRenderer->SetTexture(*XYZEngine::ResourceSystem::Instance()->GetTextureShared("platform"));
-		wallRenderer->SetPixelSize(32, 32);
+		wallRenderer->SetPixelSize(128, 128); // Увеличиваем размер стен в 2 раза: 64 -> 128
 		wallRenderer->SetColor(sf::Color::Red); // Красные стены
 
 		auto transform = gameObject->GetComponent<XYZEngine::TransformComponent>();
